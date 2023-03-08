@@ -34,11 +34,14 @@ export const me = createAsyncThunk('auth/me', async () => {
 export const authenticate = createAsyncThunk(
   'auth/authenticate',
   async ({ username, password, method }, thunkAPI) => {
+    console.log(username, password, method)
     try {
+      console.log("hit1")
       const res = await axios.post(`/auth/${method}`, { username, password });
       window.localStorage.setItem(TOKEN, res.data.token);
       thunkAPI.dispatch(me());
     } catch (err) {
+      console.log("hit2")
       if (err.response.data) {
         return thunkAPI.rejectWithValue(err.response.data);
       } else {
